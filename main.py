@@ -12,11 +12,11 @@
   - Произвести поиск по списку citys и найти слова начинающиеся на нужную букву.
   - Занести слово в список повторений и удалить из списка citys
   - Вывести сообщение "Я называю город {город}. Тебе на {последня буква в верхнем регистре}"
-
+поменять litter на letter )))
 '''
 exit == 0
 citys_repeat = []
-import os
+import random
 with open('citys_list') as f:
     city_file = f.readlines()
 citys_upper = list(map(lambda x:x.strip(), city_file))
@@ -33,7 +33,7 @@ def check_city(input):
            print(f"Город {input_lower} есть в России")
            citys_repeat.append(input_lower)
            citys.remove(input_lower)
-           if input_lower[-1] == 'ь' or input_lower[-1] == 'ъ' or input_lower[-1] == 'й' or input_lower[-1] == 'ц' or input_lower[-1] == 'ы':
+           if input_lower[-1] == 'ь' or input_lower[-1] == 'ъ' or input_lower[-1] == 'ы':
                city_last_litter = input_lower[-2]
                citys_with_first_litter = [idx for idx in citys if idx[0].lower() == city_last_litter.lower()]
                print(f"Городов на букву \"{city_last_litter.upper()[0]}\":", len(citys_with_first_litter))
@@ -48,16 +48,27 @@ def check_city(input):
                print(f"Мне город на: \"{city_last_litter.upper()}\"")
                citys_with_first_litter = [idx for idx in citys if idx[0].lower() == city_last_litter.lower()]
                print(f"Городов на букву \"{city_last_litter.upper()[0]}\":", len(citys_with_first_litter))
+               if len(citys_with_first_litter) == 0:
+                   print("Ты победил!")
+                   exit(0)
                print(citys_with_first_litter)
            new_city = [idx for idx in citys if idx[0].lower() == city_last_litter.lower()]
-           new_city = new_city[0]
+           if new_city == []:
+               print("Ты победил!")
+               exit(0)
+           new_city = random.choice(new_city)
            citys_repeat.append(new_city)
            citys.remove(new_city)
-           if new_city[-1] == 'ь' or new_city[-1] == 'ъ' or new_city[-1] == 'й' or new_city[-1] == 'ц' or new_city[-1] == 'ы':
+           if new_city[-1] == 'ь' or new_city[-1] == 'ъ' or new_city[-1] == 'ы':
                last_liter = new_city[-2]
            else:
                last_liter = new_city[-1]
            print(f"Мой ответ: {new_city}, тебе на: \"{last_liter.upper()}\"")
+           citys_with_first_litter = [idx for idx in citys if idx[0].lower() == last_liter.lower()]
+           print(f"Городов на букву \"{last_liter.upper()}\": {len(citys_with_first_litter)} ")
+           if len(citys_with_first_litter) == 0:
+               exit == 1
+           print(citys_with_first_litter)
         elif input_lower[0] != last_liter:
            print(f"Город {input_lower} не начинается на \"{last_liter.upper()}\" Попробуй еще раз!")
     else:
