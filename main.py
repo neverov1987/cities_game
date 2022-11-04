@@ -14,6 +14,7 @@
   - Вывести сообщение "Я называю город {город}. Тебе на {последня буква в верхнем регистре}"
 
 '''
+exit == 0
 citys_repeat = []
 import os
 with open('citys_list') as f:
@@ -32,35 +33,48 @@ def check_city(input):
            print(f"Город {input_lower} есть в России")
            citys_repeat.append(input_lower)
            citys.remove(input_lower)
-           if input_lower[-1] == 'ь' or input_lower[-1] == 'ъ' or input_lower[-1] == 'й' or input_lower[-1] == 'ц':
+           if input_lower[-1] == 'ь' or input_lower[-1] == 'ъ' or input_lower[-1] == 'й' or input_lower[-1] == 'ц' or input_lower[-1] == 'ы':
                city_last_litter = input_lower[-2]
-               print(f"Мне город на: {city_last_litter}")
+               citys_with_first_litter = [idx for idx in citys if idx[0].lower() == city_last_litter.lower()]
+               print(f"Городов на букву \"{city_last_litter.upper()[0]}\":", len(citys_with_first_litter))
+               print(citys_with_first_litter)
+               if citys_with_first_litter == 0:
+                   print(f"Городов на букву \"{city_last_litter.upper()[0]}\" больше нет, ты победил!")
+                   exit == 1
+               else:
+                   print(f"Мне город на: \"{city_last_litter.upper()}\"")
            else:
                city_last_litter = input_lower[-1]
-               print(f"Мне город на: {city_last_litter}")
+               print(f"Мне город на: \"{city_last_litter.upper()}\"")
+               citys_with_first_litter = [idx for idx in citys if idx[0].lower() == city_last_litter.lower()]
+               print(f"Городов на букву \"{city_last_litter.upper()[0]}\":", len(citys_with_first_litter))
+               print(citys_with_first_litter)
            new_city = [idx for idx in citys if idx[0].lower() == city_last_litter.lower()]
            new_city = new_city[0]
            citys_repeat.append(new_city)
            citys.remove(new_city)
-           if new_city[-1] == 'ь' or new_city[-1] == 'ъ' or new_city[-1] == 'й' or new_city[-1] == 'ц':
+           if new_city[-1] == 'ь' or new_city[-1] == 'ъ' or new_city[-1] == 'й' or new_city[-1] == 'ц' or new_city[-1] == 'ы':
                last_liter = new_city[-2]
            else:
                last_liter = new_city[-1]
-           print(f"CHECK_CITY Мой ответ: {new_city}, тебе на: {last_liter}")
+           print(f"Мой ответ: {new_city}, тебе на: \"{last_liter.upper()}\"")
         elif input_lower[0] != last_liter:
-           print(f"Город {input_lower} не начинается на {last_liter} Попробуй еще раз!")
+           print(f"Город {input_lower} не начинается на \"{last_liter.upper()}\" Попробуй еще раз!")
     else:
         print(f"Города {input_lower} нет в России. Попробуй еще раз!")
 
-while True:
+while exit != 1:
     city_input = input('Введите город: \n')
     city_input = city_input.lower()
-    print(f"PRINT IN WHILE {city_input}")
-    print(last_liter)
+    # print(f"PRINT IN WHILE {city_input}")
     if city_input in citys:
         check_city(city_input)
     elif city_input in citys_repeat:
         print(f"Город {city_input} уже был! Попробуй еще раз")
     else:
-        print(f"Город {city_input} не существует! Попробуй еще раз!")
+        if last_liter == '' or last_liter == None:
+            print(f"Город {city_input} не существует! Попробуй еще раз!")
+        else:
+            print(f"Город {city_input} не существует! Попробуй еще раз! Тебе на \"{last_liter.upper()}\"")
+print("Ты победил!!!")
 
