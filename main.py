@@ -26,7 +26,7 @@ def check_city(input_city):
     input_lower = str(input_city.lower())
     if input_lower in citys:
         if input_lower[0] == last_character or not last_character:
-            print(f"Город \"{input_lower.capitalize()}\" есть в России")
+            print(f"Город \"{input_lower.capitalize()}\" существует! ")
             citys_repeat.append(input_lower)
             citys.remove(input_lower)
             if input_lower[-1] == 'ь' or input_lower[-1] == 'ъ' or input_lower[-1] == 'ы':
@@ -73,7 +73,7 @@ def check_city(input_city):
         elif input_lower[0] != last_character:
             print(f"Город \"{input_lower.capitalize()}\" не начинается на \"{last_character.upper()}\" Попробуй еще раз!")
     else:
-        print(f"Города \"{input_lower.capitalize()}\" нет в России. Попробуй еще раз!")
+        print(f"Города \"{input_lower.capitalize()}\" не существует. Попробуй еще раз!")
 
 while True:
     city_input = input('Введите город: \n')
